@@ -1,13 +1,52 @@
-<!DOCTYPE html>
+<!doctype html>
 <html>
-  <head>
-    <title>web enzymes - stamp if demo</title>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes">
+  <title>web enzymes - stamp if demo</title>
+  <script src="../../webcomponentsjs/webcomponents-lite.min.js"></script>
+  <link rel="import" href="../../iron-demo-helpers/demo-pages-shared-styles.html">
+  <link rel="import" href="../../iron-demo-helpers/demo-snippet.html">
+  <link rel="import" href="../../iron-flex-layout/iron-flex-layout.html">
+  <link rel="import" href="../../paper-styles/typography.html">
+  <link rel="import" href="../../paper-styles/color.html">
+  <link rel="import" href="../stamp-if.html">
+  <style is="custom-style" include="demo-pages-shared-styles">
+  </style>
+</head>
+<body unresolved>
+  <demo-snippet>
+    <template>
+      <template is="dom-bind">
+        <button on-tap="_toggle">Toggle if</button> [[enabled]] <br>
+        <button on-tap="_toggleRestamp">Toggle restamp</button> [[restamp]] <br>
+        <button on-tap="_toggleAwait">Toggle await</button> [[await]] <br>
+        <br>
+        <template is="stamp-if" if="[[enabled]]" restamp="[[restamp]]" await="[[await]]">
+          <script>console.log('stamp-if', 'content stamped');</script>
+          <b>Content stamped</b>
+          <br>
+          <link rel="import" href="import/x-demo-foo.html">
+          <x-demo-foo></x-demo-foo>
+        </template>
+      </template>
 
-    <link rel="import" href="../stamp-if-behavior.html">
+      <script>
+        var scope = document.querySelector('template[is="dom-bind"]');
 
-    <style></style>
-  </head>
-  <body>
-    <template is="stamp-if"></template>
-  </body>
+        scope._toggleRestamp = function() {
+          this.restamp = !this.restamp;
+        };
+
+        scope._toggleAwait = function() {
+          this.await = !this.await;
+        };
+
+        scope._toggle = function() {
+          this.enabled = !this.enabled;
+        };
+      </script>
+    </template>
+  </demo-snippet>
+</body>
 </html>
