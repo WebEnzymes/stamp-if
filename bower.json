@@ -1,0 +1,26 @@
+{
+  "name": "stamp-if",
+  "version": "0.1.0",
+  "private": true,
+  "main": "stamp-if.html",
+  "repository": {
+    "type": "git",
+    "url": "git://github.com:WebEnzymes/stamp-if.git"
+  },
+  "homepage": "https://github.com/WebEnzymes/stamp-if",
+  "ignore": [],
+  "dependencies": {
+    "dom-deque": "leogr/dom-deque#develop",
+    "import-behavior": "webenzymes/import-behavior#develop",
+    "polymer": "Polymer/polymer#^1.0.0"
+  },
+  "devDependencies": {
+    "iron-component-page": "polymerelements/iron-component-page#^1.0.0",
+    "iron-demo-helpers": "PolymerElements/iron-demo-helpers#^1.2.0",
+    "paper-styles": "polymerelements/paper-styles#^1.0.0",
+    "test-fixture": "polymerelements/test-fixture#^1.0.0",
+    "web-component-tester": "^4.0.0",
+    "webcomponentsjs": "webcomponents/webcomponentsjs#^0.7.0"
+
+  }
+}
