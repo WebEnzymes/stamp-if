@@ -10,6 +10,8 @@
   <link rel="import" href="../../iron-flex-layout/iron-flex-layout.html">
   <link rel="import" href="../../paper-styles/typography.html">
   <link rel="import" href="../../paper-styles/color.html">
+  <link rel="import" href="../../paper-toggle-button/paper-toggle-button.html">
+  <link rel="import" href="../../promise-polyfill/promise-polyfill.html">
   <link rel="import" href="../stamp-if.html">
   <style is="custom-style" include="demo-pages-shared-styles">
   </style>
@@ -17,35 +19,17 @@
 <body unresolved>
   <demo-snippet>
     <template>
-      <template is="dom-bind">
-        <button on-tap="_toggle">Toggle if</button> [[enabled]] <br>
-        <button on-tap="_toggleRestamp">Toggle restamp</button> [[restamp]] <br>
-        <button on-tap="_toggleAwait">Toggle await</button> [[await]] <br>
+      <paper-toggle-button onchange="demo['if']=this.active">if</paper-toggle-button>
+      <paper-toggle-button onchange="demo['restamp']=this.active">restamp</paper-toggle-button>
+      <paper-toggle-button onchange="demo['await']=this.active">await</paper-toggle-button>
+      <br>
+      <template id="demo" is="stamp-if">
+        <script>console && console.log('stamp-if content stamped!');</script>
+        <b>Content stamped</b>
         <br>
-        <template is="stamp-if" if="[[enabled]]" restamp="[[restamp]]" await="[[await]]">
-          <script>console.log('stamp-if', 'content stamped');</script>
-          <b>Content stamped</b>
-          <br>
-          <link rel="import" href="import/x-demo-foo.html">
-          <x-demo-foo></x-demo-foo>
-        </template>
+        <link rel="import" href="import/x-demo-foo.html">
+        <x-demo-foo></x-demo-foo>
       </template>
-
-      <script>
-        var scope = document.querySelector('template[is="dom-bind"]');
-
-        scope._toggleRestamp = function() {
-          this.restamp = !this.restamp;
-        };
-
-        scope._toggleAwait = function() {
-          this.await = !this.await;
-        };
-
-        scope._toggle = function() {
-          this.enabled = !this.enabled;
-        };
-      </script>
     </template>
   </demo-snippet>
 </body>
