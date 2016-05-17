@@ -34,10 +34,11 @@
     "polylint": "2.10.x",
     "polyserve": "0.10.x",
     "validate-commit": "2.1.x",
-    "web-component-tester": "4.2.x"
+    "web-component-tester": "^4.2.2"
   },
   "scripts": {
     "lint": "polylint -b bower_components --no-recursion --index stamp-if.html",
-    "serve": "polyserve"
+    "serve": "polyserve",
+    "test": "npm run serve -- -o test/index.html"
   }
 }
