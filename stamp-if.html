@@ -109,17 +109,14 @@ Example:
             } else {
               this.pushBack();
             }
+          } else {
+            this._showHideChildren();
           }
-          this._showHideChildren();
         } else if (this.restamp) {
           this.popBack();
         }
         if (!this.restamp && instance) {
           this._showHideChildren();
-        }
-        if (this.if != this._lastIf) {
-          this.fire('dom-change');
-          this._lastIf = this.if;
         }
       },
 
@@ -128,6 +125,7 @@ Example:
         var instance = this.front;
         if (instance) {
           instance._showHideChildren(hidden);
+          this.fire('dom-change');
         }
       }
     });
