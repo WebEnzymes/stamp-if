@@ -1,0 +1,133 @@
+<link rel="import" href="../polymer/polymer.html">
+<link rel="import" href="../dom-deque/dom-deque.html">
+<link rel="import" href="../import-behavior/import-behavior.html">
+
+<!--
+A type extension element ...
+
+Example:
+  <template is="stamp-if"></template>
+
+@demo demo/index.html
+-->
+<dom-module id="stamp-if">
+  <script>
+    'use strict';
+
+    Polymer({
+      is: 'stamp-if',
+      extends: 'template',
+      _template: null,
+
+      /**
+       * Fired whenever DOM is added or removed/hidden by this template (by default, rendering occurs lazily).
+       * To force immediate rendering, call `render`.
+       *
+       * @event dom-change
+       */
+
+      properties: {
+        /**
+         * The queue can contain at most exactly 1 element.
+         * It overrides the default value of the dom-deque element.
+         *
+         * @type {number}
+         */
+        maxSize: {
+          type: Number,
+          value: 1,
+          readOnly: true
+        },
+
+        /**
+         * Whether to wait for imports to finish loading and parsing.
+         *
+         * @type {boolean}
+         */
+        awaitImports: {
+          type: Boolean,
+          value: false
+        },
+
+        /**
+         * A boolean indicating whether this template should stamp.
+         */
+        'if': {
+          type: Boolean,
+          value: false,
+          observer: '_queueRender'
+        },
+
+        /**
+         * When true, elements will be removed from DOM and discarded when the `if` condition becomes false.
+         * Then re-created and added back to the DOM when `if` returns to be true.
+         * By default, stamped elements will be hidden but left in the DOM when `if` becomes false,
+         * which generally results in better performances.
+         */
+        restamp: {
+          type: Boolean,
+          value: false,
+          observer: '_queueRender'
+        }
+      },
+
+      behaviors: [
+        DomDeque.DomDequeBehavior,
+        WebEnzymes.ImportBehavior
+      ],
+
+      _queueRender: function() {
+        this._debounceTemplate(this._render);
+      },
+
+      attached: function() {
+        // Detect case where 'if' has been changed when not attached
+        if (this.if && !this.front) {
+          // NOTE: ideally should not be async, but node can be attached
+          // when shady dom is in the act of distributing/composing so push it out
+          this.async(this._render);
+        }
+      },
+
+      /**
+       * Forces the element to render its content.
+       * Normally rendering is asynchronous to a provoking change.
+       * This is done for efficiency so that multiple changes trigger only a single render.
+       * The render method should be called when template rendering is required to validate the application state.
+       */
+      render: function() {
+        this._flushTemplates();
+      },
+
+      _render: function() {
+        var instance = this.front;
+        if (this.if) {
+          if (!instance) {
+            var p = this._bulkImporter(this._extractImports(this._content || this.content));
+            if (this.awaitImports) {
+              p.then(this.pushBack.bind(this));
+            } else {
+              this.pushBack();
+            }
+          } else {
+            this._showHideChildren();
+          }
+        } else if (this.restamp) {
+          this.popBack();
+        }
+        if (!this.restamp && instance) {
+          this._showHideChildren();
+        }
+      },
+
+      _showHideChildren: function() {
+        var hidden = this.__hideTemplateChildren__ || !this.if;
+        var instance = this.front;
+        if (instance) {
+          instance._showHideChildren(hidden);
+          this.fire('dom-change');
+        }
+      }
+    });
+  </script>
+</dom-module>

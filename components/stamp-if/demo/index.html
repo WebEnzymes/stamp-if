@@ -1,0 +1,36 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes">
+  <title>web enzymes - stamp if demo</title>
+  <script src="../../webcomponentsjs/webcomponents-lite.min.js"></script>
+  <link rel="import" href="../../iron-demo-helpers/demo-pages-shared-styles.html">
+  <link rel="import" href="../../iron-demo-helpers/demo-snippet.html">
+  <link rel="import" href="../../iron-flex-layout/iron-flex-layout.html">
+  <link rel="import" href="../../paper-styles/typography.html">
+  <link rel="import" href="../../paper-styles/color.html">
+  <link rel="import" href="../../paper-toggle-button/paper-toggle-button.html">
+  <link rel="import" href="../../promise-polyfill/promise-polyfill.html">
+  <link rel="import" href="../stamp-if.html">
+  <style is="custom-style" include="demo-pages-shared-styles">
+  </style>
+</head>
+<body unresolved>
+  <demo-snippet>
+    <template>
+      <paper-toggle-button onchange="demo['if']=this.active">if</paper-toggle-button>
+      <paper-toggle-button onchange="demo['restamp']=this.active">restamp</paper-toggle-button>
+      <paper-toggle-button onchange="demo['awaitImports']=this.active">awaitImports</paper-toggle-button>
+      <br>
+      <template id="demo" is="stamp-if">
+        <script>console && console.log('stamp-if content stamped!');</script>
+        <b>Content stamped</b>
+        <br>
+        <link rel="import" href="import/x-demo-foo.html">
+        <x-demo-foo></x-demo-foo>
+      </template>
+    </template>
+  </demo-snippet>
+</body>
+</html>
