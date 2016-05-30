@@ -89,6 +89,13 @@ Example:
         }
       },
 
+      detached: function() {
+        // Teardown instances when detached, but not when moved to another parent
+        if (!this.parentNode) {
+          this._instances = [];
+        }
+      },
+
       /**
        * Forces the element to render its content.
        * Normally rendering is asynchronous to a provoking change.
