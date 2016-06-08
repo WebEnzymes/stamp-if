@@ -110,10 +110,11 @@ Example:
         var instance = this.front;
         if (this.if) {
           if (!instance) {
-            var p = this._bulkImporter(this._extractImports(this._content || this.content));
+            var imports = this._extractImports(this._content || this.content);
             if (this.awaitImports) {
-              p.then(this.pushBack.bind(this));
+              this._bulkImporter(imports, this.pushBack.bind(this));
             } else {
+              this._bulkImporter(imports);
               this.pushBack();
             }
           } else {
